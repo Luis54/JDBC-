@@ -2,6 +2,7 @@ package Libros;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,19 +39,51 @@ public class UsuarioDAOImp implements UsuarioDAO{
 	@Override
 	public void addUsuario(UsuarioDTO u) {
 		// TODO Auto-generated method stub
-		getUsuarios().add(u);
-	}
+		List<UsuarioDTO> lista = getUsuarios();
+		if(lista.contains(u))System.out.println("El usuario " + u.getNombre() + " ya esta en la  lista");
+		else{
+		String sql = "insert into usuario (nombre,dni) values (?,?)";
+		try {
+			PreparedStatement p = conexion.prepareStatement(sql);
+			p.setString(1, u.getNombre());
+			p.setString(2, u.getDni());
+			p.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Usuario "+u.getDni()+ " añadido correctamtne");
+	}	
+		
+}
 
 	@Override
 	public void eliminarUsuario(UsuarioDTO u) {
 		// TODO Auto-generated method stub
-		getUsuarios().remove(u);
+		String sql = "delete from usuario where dni=?";
+		try {
+			PreparedStatement s = conexion.prepareStatement(sql);
+			s.setString(1, u.getDni());
+			s.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void actualizarUsuario(UsuarioDTO u) {
 		// TODO Auto-generated method stub
-		
+		String sql = "update from usuario set nombre=? where dni?";
+		try {
+			PreparedStatement s = conexion.prepareStatement(sql);
+			s.setString(1, u.getNombre());
+			s.setString(2, u.getDni());
+			s.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
