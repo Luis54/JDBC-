@@ -74,7 +74,7 @@ public class UsuarioDAOImp implements UsuarioDAO{
 	@Override
 	public void actualizarUsuario(UsuarioDTO u) {
 		// TODO Auto-generated method stub
-		String sql = "update from usuario set nombre=? where dni?";
+		String sql = "update usuario set nombre=? where dni=?";
 		try {
 			PreparedStatement s = conexion.prepareStatement(sql);
 			s.setString(1, u.getNombre());
